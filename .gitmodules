@@ -1,0 +1,9 @@
+[submodule "DHT11_Python"]
+	path = DHT11_Python
+	url = https://github.com/szazo/DHT11_Python.git
+[submodule "co2_sensor"]
+	path = co2_sensor
+	url = https://github.com/Tiryoh/co2_sensor.git
+[submodule "dht11_sensor"]
+	path = dht11_sensor
+	url = https://github.com/szazo/DHT11_Python.git
