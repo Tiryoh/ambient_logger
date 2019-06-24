@@ -15,7 +15,8 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-def get_co2_concentration():
+
+def get_co2_concentration(co2):
     tmp1 = 1
     tmp2 = 2
     while tmp1/tmp2 < 0.8 or tmp1/tmp2 > 1.2:
@@ -56,7 +57,7 @@ def main():
     while(1):
         try:
             # read co2 concentration data
-            co2_data = get_co2_concentration()
+            co2_data = get_co2_concentration(co2)
             # read temperature and humidity data
             temp_data = temp.read()
             while not temp_data.is_valid():
