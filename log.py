@@ -98,10 +98,6 @@ def main():
         except KeyboardInterrupt:
             print("KeyboardInterrupt")
             sys.exit(0)
-        except:
-            print(data, end="")
-            print(type(data), end="")
-            print(r)
         finally:
             r = ""
             data = ""
