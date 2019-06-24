@@ -2,18 +2,27 @@
 # -*- coding: utf-8 -*-
 
 import argparse
-import ambient
 import sys
 import time
-import threading
+import datetime
+# sensor
 import RPi.GPIO as GPIO
 from co2_sensor.MHZ14A import MHZ14A
 from dht11_sensor.dht11 import DHT11
+# database
+import ambient
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-import datetime
 
+def get_co2_concentration():
+    tmp1 = 1
+    tmp2 = 2
+    while tmp1/tmp2 < 0.8 or tmp1/tmp2 > 1.2:
+        tmp1 = co2.read()
+        time.sleep(1)
+        tmp2 = co2.read()
+    return tmp1
 
 def main():
     parser = argparse.ArgumentParser()
@@ -27,14 +36,15 @@ def main():
 
     print("channel_id: {}, write_key:{}".format(channel_id, write_key))
 
+    # initialize ambient.io settings
     if write_key is not None:
         am = ambient.Ambient(channel_id, write_key)
 
-    # initialize firebase
-    cred = credentials.Certificate(firebase_key)
-    firebase_admin.initialize_app(cred)
-
-    db = firestore.client()
+    # initialize firestore settings
+    if firebase_key is not None:
+        cred = credentials.Certificate(firebase_key)
+        firebase_admin.initialize_app(cred)
+        db = firestore.client()
 
     # initialize sensors
     co2 = MHZ14A("/dev/ttyS0")
@@ -46,42 +56,42 @@ def main():
     while(1):
         try:
             # read co2 concentration data
-            tmp1 = 1
-            tmp2 = 2
-            while tmp1/tmp2 < 0.8 or tmp1/tmp2 > 1.2:
-                tmp1 = co2.read()
-                time.sleep(1)
-                tmp2 = co2.read()
-                co2_data = tmp1
+            co2_data = get_co2_concentration()
             # read temperature and humidity data
             temp_data = temp.read()
             while not temp_data.is_valid():
                 time.sleep(1)
                 temp_data = temp.read()
-            # data = co2_data
-            # data['temperature'] = temp_data.temperature
-            # data['humidity'] = temp_data.humidity
-            data = {}
-            data['d1'] = co2_data
-            data['d2'] = temp_data.temperature
-            data['d3'] = temp_data.humidity
 
-            date = datetime.datetime.now()
+            # prepare data for ambient.io
+            data = {
+                u'd1': co2_data,
+                u'd2': temp_data.temperature,
+                u'd3': temp_data.humidity
+            }
 
-            if firebase_key is not None:
-                doc_ref = db.collection(u'ambient').document(date.strftime('%s'))
-                doc_ref.set({
-                    u'timestamp': date.isoformat(),
-                    u'co2': data['d1'],
-                    u'temperature': data['d2'],
-                    u'humidity': data['d3']
-                })
-
+            # post data to ambient.io
             if write_key is not None:
                 r = am.send(data)
                 print("post data: ", data)
             else:
-                print("data: ", data)
+                print("ambient.io: ", data)
+
+            # prepare data for firestore
+            date = datetime.datetime.now()
+
+            # post data to firestore
+            if firebase_key is not None:
+                data = {
+                    u'timestamp': date.isoformat(),
+                    u'co2': co2_data,
+                    u'temperature': temp_data.temperature,
+                    u'humidity': temp_data.humidity
+                }
+                doc_ref = db.collection(u'ambient').document(date.strftime('%s'))
+                doc_ref.set(data)
+            else:
+                print("firestore: ", data)
 
             time.sleep(57)
 
