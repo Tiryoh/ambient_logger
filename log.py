@@ -30,10 +30,12 @@ def main():
     parser.add_argument("--id")
     parser.add_argument("--wkey")
     parser.add_argument("--firebase")
+    parser.add_argument("--loop", "-l", type=int, default=0)
     args = parser.parse_args()
     channel_id = args.id
     write_key = args.wkey
     firebase_key = args.firebase
+    loop = args.loop
 
     print("channel_id: {}, write_key:{}".format(channel_id, write_key))
 
@@ -54,7 +56,7 @@ def main():
     GPIO.cleanup()
     temp = DHT11(pin=17)
 
-    while(1):
+    while(loop)
         try:
             # read co2 concentration data
             co2_data = get_co2_concentration(co2)
