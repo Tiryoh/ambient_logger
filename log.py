@@ -56,7 +56,7 @@ def main():
     GPIO.cleanup()
     temp = DHT11(pin=17)
 
-    while(loop)
+    while(1):
         try:
             # read co2 concentration data
             co2_data = get_co2_concentration(co2)
@@ -96,7 +96,10 @@ def main():
             else:
                 print("firestore: ", data)
 
-            time.sleep(57)
+            if loop:
+                time.sleep(57)
+            else:
+                break
 
         except KeyboardInterrupt:
             print("KeyboardInterrupt")
