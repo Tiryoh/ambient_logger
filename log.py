@@ -10,7 +10,7 @@ import RPi.GPIO as GPIO
 from co2_sensor.MHZ14A import MHZ14A
 from dht11_sensor.dht11 import DHT11
 # database
-import ambient
+from ambient_lib import ambient
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
