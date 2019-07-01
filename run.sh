@@ -19,7 +19,7 @@ if [[ -e ${SRC_DIR}/.env.sh ]]; then
 fi
 
 cd ${SRC_DIR}
-RESULT=$(./log.py --id="${AMBIENTIO_ID}" --wkey="${AMBIENTIO_WKEY}" --firebase="${FIREBASE_KEY}" | grep "d1")
+RESULT=$(./ambient_logger.py --id="${AMBIENTIO_ID}" --wkey="${AMBIENTIO_WKEY}" --firebase="${FIREBASE_KEY}" | grep "d1")
 
 CO2=$(echo $RESULT | sed -e "s/.*'d1': \([0-9]*\).*/\1/g")
 TEMP=$(echo $RESULT | sed -e "s/.*'d2': \([0-9]*\).*/\1/g")
