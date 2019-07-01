@@ -82,15 +82,15 @@ def main():
 
             # prepare data for firestore
             date = datetime.datetime.now()
+            data = {
+                u'timestamp': date.isoformat(),
+                u'co2': co2_data,
+                u'temperature': temp_data.temperature,
+                u'humidity': temp_data.humidity
+            }
 
             # post data to firestore
             if firebase_key is not None:
-                data = {
-                    u'timestamp': date.isoformat(),
-                    u'co2': co2_data,
-                    u'temperature': temp_data.temperature,
-                    u'humidity': temp_data.humidity
-                }
                 doc_ref = db.collection(u'ambient').document(date.strftime('%s'))
                 doc_ref.set(data)
             else:
