@@ -1,4 +1,5 @@
 *.json
+.env.sh
 
 ### https://raw.github.com/github/gitignore/26f49b0c26f639c44b02451426f32fc582bdef1d/Python.gitignore
 
