@@ -19,7 +19,9 @@ if [[ -e ${SRC_DIR}/.env.sh ]]; then
 fi
 
 cd ${SRC_DIR}
-RESULT=$(./ambient_logger.py --id="${AMBIENTIO_ID}" --wkey="${AMBIENTIO_WKEY}" --firebase="${FIREBASE_KEY}" | grep "d1")
+RESULT=$(./ambient_logger.py --id="${AMBIENTIO_ID}" --wkey="${AMBIENTIO_WKEY}" --firebase="${FIREBASE_KEY}")
+echo $RESULT
+RESULT=$(echo $RESULT | grep "d1")
 
 CO2=$(echo $RESULT | sed -e "s/.*'d1': \([0-9]*\).*/\1/g")
 TEMP=$(echo $RESULT | sed -e "s/.*'d2': \([0-9]*\).*/\1/g")
@@ -42,7 +44,7 @@ else
 	fi
 fi
 
-if [[ $TEMP -gt 30 ]]; then
+if [[ $TEMP -gt 32 ]]; then
 	if [[ $TEMP_FLAG -eq 0 ]]; then
 		MSG+="${AMBIENT_ENV}の室温が高いです。$TEMP deg C です。"
 		export TEMP_FLAG=1
