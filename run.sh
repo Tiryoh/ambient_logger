@@ -32,32 +32,20 @@ MSG=""
 
 if [[ $CO2 -gt 2000 ]]; then
 	MSG+="${AMBIENT_ENV}の二酸化炭素濃度が極めて高いです。$CO2 ppmです。"
-elif [[ $CO2 -gt 1500 ]]; then
-	if [[ $CO2_FLAG -eq 0 ]]; then
-		MSG+="${AMBIENT_ENV}の二酸化炭素濃度が高いです。$CO2 ppmです。"
-		export CO2_FLAG=1
-	fi
-else
-	if [[ $CO2_FLAG -eq 1 ]]; then
-		if [[ $CO2 -lt 1400 ]]; then
-			MSG+="${AMBIENT_ENV}の二酸化炭素濃度がある程度低くなりました。"
-			export CO2_FLAG=0
-		fi
-	fi
+elif [[ $CO2 -gt 1500 ]] && [[ $CO2_FLAG -eq 0 ]]; then
+	MSG+="${AMBIENT_ENV}の二酸化炭素濃度が高いです。$CO2 ppmです。"
+	export CO2_FLAG=1
+elif [[ $CO2 -lt 1400 ]] && [[ $CO2_FLAG -eq 1 ]]; then
+	MSG+="${AMBIENT_ENV}の二酸化炭素濃度がある程度低くなりました。"
+	export CO2_FLAG=0
 fi
 
-if [[ $TEMP -gt 32 ]]; then
-	if [[ $TEMP_FLAG -eq 0 ]]; then
-		MSG+="${AMBIENT_ENV}の室温が高いです。$TEMP deg C です。"
-		export TEMP_FLAG=1
-	fi
-else
-	if [[ $TEMP_FLAG -eq 1 ]]; then
-		if [[ $TEMP -lt 30 ]]; then
-			MSG+="${AMBIENT_ENV}の室温がある程度低くなりました。"
-			export TEMP_FLAG=0
-		fi
-	fi
+if [[ $TEMP -gt 32 ]] && [[ $TEMP_FLAG -eq 0 ]]; then
+	MSG+="${AMBIENT_ENV}の室温が高いです。$TEMP deg C です。"
+	export TEMP_FLAG=1
+elif [[ $TEMP -lt 30 ]] && [[ $TEMP_FLAG -eq 1 ]]; then
+	MSG+="${AMBIENT_ENV}の室温がある程度低くなりました。"
+	export TEMP_FLAG=0
 fi
 
 echo $CO2_FLAG > /dev/shm/logger_co2_flag
