@@ -39,8 +39,10 @@ elif [[ $CO2 -gt 1500 ]]; then
 	fi
 else
 	if [[ $CO2_FLAG -eq 1 ]]; then
-		MSG+="${AMBIENT_ENV}の二酸化炭素濃度がある程度低くなりました。"
-		export CO2_FLAG=0
+		if [[ $CO2 -lt 1400 ]]; then
+			MSG+="${AMBIENT_ENV}の二酸化炭素濃度がある程度低くなりました。"
+			export CO2_FLAG=0
+		fi
 	fi
 fi
 
@@ -51,8 +53,10 @@ if [[ $TEMP -gt 32 ]]; then
 	fi
 else
 	if [[ $TEMP_FLAG -eq 1 ]]; then
-		MSG+="${AMBIENT_ENV}の室温がある程度低くなりました。"
-		export TEMP_FLAG=0
+		if [[ $TEMP -lt 30 ]]; then
+			MSG+="${AMBIENT_ENV}の室温がある程度低くなりました。"
+			export TEMP_FLAG=0
+		fi
 	fi
 fi
 
