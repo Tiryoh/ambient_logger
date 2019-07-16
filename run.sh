@@ -36,7 +36,7 @@ elif [[ $CO2 -gt 1500 ]] && [[ $CO2_FLAG -eq 0 ]]; then
 	MSG+="${AMBIENT_ENV}の二酸化炭素濃度が高いです。$CO2 ppmです。"
 	export CO2_FLAG=1
 elif [[ $CO2 -lt 1400 ]] && [[ $CO2_FLAG -eq 1 ]]; then
-	MSG+="${AMBIENT_ENV}の二酸化炭素濃度がある程度低くなりました。"
+	MSG+="${AMBIENT_ENV}の二酸化炭素濃度が$CO2 ppmまで下がりました。"
 	export CO2_FLAG=0
 fi
 
@@ -44,7 +44,7 @@ if [[ $TEMP -gt 32 ]] && [[ $TEMP_FLAG -eq 0 ]]; then
 	MSG+="${AMBIENT_ENV}の室温が高いです。$TEMP deg C です。"
 	export TEMP_FLAG=1
 elif [[ $TEMP -lt 30 ]] && [[ $TEMP_FLAG -eq 1 ]]; then
-	MSG+="${AMBIENT_ENV}の室温がある程度低くなりました。"
+	MSG+="${AMBIENT_ENV}の室温が$TEMP deg Cまで下がりました。"
 	export TEMP_FLAG=0
 fi
 
