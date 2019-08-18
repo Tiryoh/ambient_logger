@@ -26,6 +26,14 @@ RESULT=$(echo $RESULT | grep "d1")
 CO2=$(echo $RESULT | sed -e "s/.*'d1': \([0-9]*\).*/\1/g")
 TEMP=$(echo $RESULT | sed -e "s/.*'d2': \([0-9]*\).*/\1/g")
 HUM=$(echo $RESULT | sed -e "s/.*'d3': \([0-9]*\).*/\1/g")
+
+touch /dev/shm/logger_co2_flag
+touch /dev/shm/logger_temp_flag
+touch /dev/shm/logger_co2
+touch /dev/shm/logger_temp
+touch /dev/shm/logger_hum
+touch /dev/shm/logger_timestamp
+
 CO2_FLAG=$(cat /dev/shm/logger_co2_flag)
 TEMP_FLAG=$(cat /dev/shm/logger_temp_flag)
 MSG=""
