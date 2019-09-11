@@ -67,3 +67,5 @@ date '+%Y-%m-%dT%H:%M:%S%z' > /dev/shm/logger_timestamp
 if [[ ! $MSG = "" ]]; then
 	curl -sSX POST --data-urlencode 'payload={"channel": "'"${SLACK_POST_CH}"'", "username": "'"${SLACK_POST_USERNAME}"'", "text": "'"${MSG}"'", "icon_emoji": "'"${SLACK_POST_EMOJI}"'"}' ${SLACK_WEBHOOK} > /dev/null &
 fi
+
+${SRC_DIR}/scripts/update_git_repo.sh
