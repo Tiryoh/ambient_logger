@@ -43,7 +43,7 @@ if [[ $CO2 -gt 2000 ]]; then
 elif [[ $CO2 -gt 1500 ]] && [[ $CO2_FLAG -eq 0 ]]; then
 	MSG+="${AMBIENT_ENV}の二酸化炭素濃度が高いです。$CO2 ppmです。"
 	export CO2_FLAG=1
-elif [[ $CO2 -lt 1400 ]] && [[ $CO2_FLAG -eq 1 ]]; then
+elif [[ $CO2 -lt 1300 ]] && [[ $CO2_FLAG -eq 1 ]]; then
 	MSG+="${AMBIENT_ENV}の二酸化炭素濃度が$CO2 ppmまで下がりました。"
 	export CO2_FLAG=0
 fi
